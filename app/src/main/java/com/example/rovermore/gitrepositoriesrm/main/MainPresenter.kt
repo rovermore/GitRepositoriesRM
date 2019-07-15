@@ -8,7 +8,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class MainPresenter(var lastRepositoryID: Int) : MainPresenterInterface {
+class MainPresenter(var lastRepositoryID: Int, var mainViewInterface: MainViewInterface) : MainPresenterInterface {
 
     val LOG_TAG = "MainPresenter"
 
@@ -25,7 +25,10 @@ class MainPresenter(var lastRepositoryID: Int) : MainPresenterInterface {
                 if (!response!!.isSuccessful) run {
                     Log.e(LOG_TAG, "Response code is: " + response.code())
                 } else {
-                    val repositoriesList = response?.body()
+                    val repositoriesList = response.body()
+                    if (repositoriesList != null) {
+                        mainViewInterface.onReceiveAllResults(repositoriesList)
+                    }
                     for (num in 0..repositoriesList?.size!!)
                         Log.i(LOG_TAG, Gson().toJson(repositoriesList))
                 }
@@ -37,3 +40,5 @@ class MainPresenter(var lastRepositoryID: Int) : MainPresenterInterface {
         })
     }
 }
+
+//StringBuilder(repositoryList[position].description.substring(0,20)).append("...").toString()

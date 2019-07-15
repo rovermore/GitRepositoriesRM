@@ -41,4 +41,10 @@ dependencies {
 
     //dependency for recyclerview implementation
     implementation 'com.android.support:recyclerview-v7:28.0.0'
+
+    //implements a library to make circular imageViews
+    implementation 'de.hdodenhof:circleimageview:3.0.0'
+
+    //image download library
+    implementation 'com.squareup.picasso:picasso:2.5.2'
 }
