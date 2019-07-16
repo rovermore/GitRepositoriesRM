@@ -12,11 +12,12 @@ import retrofit2.http.Query
 
 interface GitHubAPI {
 
-    @GET("repositories?")
-     fun getAllRepositories(@Query("since") lastRepositoryID: String): Call<List<Repository>>
 
     @GET("repositories?")
-    fun searchRepositories(@Query("q") search: String): Call<List<Repository>>
+     fun getAllRepositories(@Query("since") lastRepositoryID: String): Call<MutableList<Repository>>
+
+    @GET("repositories?")
+    fun searchRepositories(@Query("q") search: String): Call<MutableList<Repository>>
 
     @GET("repos/{user}/{repo}")
      fun getRepository(

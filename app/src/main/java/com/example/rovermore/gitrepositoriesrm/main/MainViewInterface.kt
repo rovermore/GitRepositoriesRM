@@ -4,5 +4,11 @@ import com.example.rovermore.gitrepositoriesrm.datamodel.Repository
 
 interface MainViewInterface {
 
-    fun onReceiveAllResults(repositoriesList: List<Repository>)
+    fun onReceiveAllResults(repositoriesList: MutableList<Repository>)
+
+    fun onReceivingMoreResults(insertIndex: Int, newRepositoriesList: MutableList<Repository>)
+
+    fun onErrorReceivingResults()
+
+    fun onErrorReceivingSearchResults()
 }
