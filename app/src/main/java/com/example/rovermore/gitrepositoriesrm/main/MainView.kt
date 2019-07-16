@@ -82,15 +82,6 @@ class MainView : AppCompatActivity(),MainViewInterface, MainAdapter.OnItemClicke
         intent = Intent(applicationContext, DetailView::class.java)
         intent.putExtra(LOGIN, login)
         intent.putExtra(REPOSITORY, repository.name)
-
-        /*val transitionAnimation = ActivityOptionsCompat.makeSceneTransitionAnimation(
-            this as Activity,
-            iv_cicle_profile_image as View,
-            iv_cicle_profile_image.getTransitionName()
-        )
-
-        val bundle = transitionAnimation.toBundle()*/
-
         startActivity(intent)
     }
 
