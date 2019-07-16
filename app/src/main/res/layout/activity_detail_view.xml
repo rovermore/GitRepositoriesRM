@@ -17,37 +17,49 @@
         <LinearLayout android:layout_width="match_parent"
                       android:layout_height="170dp"
                       android:orientation="horizontal"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp">
+                      android:paddingStart="8dp"
+                      android:paddingTop="8dp"
+                      android:paddingBottom="8dp"
+                      android:background="@color/colorPrimaryLight">
 
             <de.hdodenhof.circleimageview.CircleImageView
                     android:layout_width="170dp"
                     android:layout_height="match_parent"
-                    android:id="@+id/iv_profile_detail"/>
+                    android:id="@+id/iv_profile_detail"
+                    app:civ_border_width="2dp"
+                    app:civ_border_color="@color/colorPrimaryDark"
+                    android:transitionName="transition_text"
+                    android:background="@color/colorPrimaryLight"/>
             <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp">
+                    android:paddingStart="16dp"
+                    android:paddingBottom="8dp"
+                    android:paddingTop="16dp"
+                    android:background="@color/colorPrimaryLight">
 
                 <TextView android:layout_width="match_parent"
                           android:layout_height="0dp"
                           android:layout_weight="1"
                           android:id="@+id/tv_repository_name_detail"
-                android:textSize="22sp"
-                android:textStyle="bold"/>
+                          android:textSize="28sp"
+                          android:textStyle="bold"
+                          android:textColor="@color/colorTextOverbackground"
+                />
 
                 <TextView android:layout_width="match_parent"
                           android:layout_height="0dp"
                           android:layout_weight="1"
                           android:id="@+id/tv_login_detail"
-                          android:textSize="22sp"/>
+                          android:textSize="22sp"
+                          android:textColor="@color/colorTextOverbackground"/>
 
                 <TextView android:layout_width="match_parent"
                           android:layout_height="0dp"
                           android:layout_weight="1"
-                          android:id="@+id/tv_url_user_detail"/>
+                          android:id="@+id/tv_url_user_detail"
+                          android:textColor="@color/colorTextOverbackground"/>
 
             </LinearLayout>
 
@@ -55,7 +67,62 @@
 
         <TextView android:layout_width="match_parent"
                   android:layout_height="wrap_content"
-                  android:text="Hello World"/>
+                  android:id="@+id/tv_language"
+                  android:layout_marginStart="24dp"
+                  android:layout_marginTop="16dp"
+                  android:textSize="20sp"
+                  android:drawableStart="@drawable/ic_code_black_24dp"
+                  android:textColor="@color/colorTextSecundary"/>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginTop="16dp">
+
+            <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:drawableStart="@drawable/ic_star_black_24dp"
+                    android:id="@+id/tv_star"
+                    android:textColor="@color/colorTextSecundary"/>
+
+            <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:drawableStart="@drawable/ic_remove_red_eye_black_24dp"
+                    android:id="@+id/tv_watch"
+                    android:textColor="@color/colorTextSecundary"/>
+
+            <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:drawableStart="@drawable/ic_forks_black_24dp"
+                    android:id="@+id/tv_forks"
+                    android:textColor="@color/colorTextSecundary"/>
+
+            <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:drawableStart="@drawable/ic_issue_outline_black_24dp"
+                    android:id="@+id/tv_issue"
+                    android:textColor="@color/colorTextSecundary"/>
+
+        </LinearLayout>
+
+        <TextView android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:id="@+id/tv_description"
+                  android:layout_marginStart="16dp"
+                  android:layout_marginTop="16dp"
+                  android:textSize="18sp"
+                  android:textColor="@color/colorTextSecundary"/>
 
 
     </LinearLayout>

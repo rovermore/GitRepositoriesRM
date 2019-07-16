@@ -27,7 +27,7 @@
                 android:layout_height="match_parent"
                 android:id="@+id/button_search"
                 android:text="@string/buton_search_text"
-                />
+                android:textColor="@color/colorTextOverbackground"/>
 
     </LinearLayout>
 

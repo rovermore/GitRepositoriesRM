@@ -18,7 +18,7 @@ class DetailView : AppCompatActivity(), DetailViewInterface {
         super.onCreate(savedInstanceState)
         setContentView(com.example.rovermore.gitrepositoriesrm.R.layout.activity_detail_view)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        setTitle("Perfil")
+        setTitle("Repository")
 
         val login = intent?.extras!!.get(LOGIN) as String
         val repositoryName = intent?.extras!!.get(REPOSITORY) as String
@@ -34,6 +34,12 @@ class DetailView : AppCompatActivity(), DetailViewInterface {
         tv_repository_name_detail.text = repositoryDetail.name
         tv_login_detail.text = owner.login
         tv_url_user_detail.text = owner.htmlUrl
+        tv_description.text = repositoryDetail.description
+        tv_language.text = repositoryDetail.language
+        tv_star.text = repositoryDetail.stargazersCount.toString()
+        tv_watch.text = repositoryDetail.watchersCount.toString()
+        tv_forks.text = repositoryDetail.forksCount.toString()
+        tv_issue.text = repositoryDetail.openIssuesCount.toString()
     }
 
     override fun onErrorReceivingRepositoryDetail(error: String) {
