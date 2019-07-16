@@ -36,12 +36,5 @@
             android:layout_height="wrap_content"
             android:id="@+id/recycler_view"
     />
-    
-    <ProgressBar
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:id="@+id/progressbar"
-            android:visibility="gone"
-            android:layout_gravity="center"/>
 
 </LinearLayout>

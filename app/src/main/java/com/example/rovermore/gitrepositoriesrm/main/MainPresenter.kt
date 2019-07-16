@@ -39,8 +39,7 @@ class MainPresenter(var context: Context, var lastRepositoryID: Int?, var mainVi
                         lastRepositoryID = repositoriesList[repositoriesList.size -1].id
                         Toast.makeText(context, "OJOOOOOOO: $lastRepositoryID", Toast.LENGTH_LONG).show()
                     }
-                    /*for (num in 0..repositoriesList?.size!!)
-                        Log.i(LOG_TAG, Gson().toJson(repositoriesList))*/
+
                 }
             }
 
@@ -50,5 +49,3 @@ class MainPresenter(var context: Context, var lastRepositoryID: Int?, var mainVi
         })
     }
 }
-
-//StringBuilder(repositoryList[position].description.substring(0,20)).append("...").toString()

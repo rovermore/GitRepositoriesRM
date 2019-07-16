@@ -1,7 +1,6 @@
 package com.example.rovermore.gitrepositoriesrm.main
 
 import android.os.Bundle
-import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -38,7 +37,6 @@ class MainView : AppCompatActivity(),MainViewInterface {
                     if(pageMoreEntries){
                         mainPresenterInterface.getAllRepositories()
                         pageMoreEntries = false
-                        progressbar.visibility = View.VISIBLE
                     }
                 }
             }
@@ -55,7 +53,6 @@ class MainView : AppCompatActivity(),MainViewInterface {
     }
 
     override fun onReceivingMoreResults(insertIndex: Int, newRepositoriesList: MutableList<Repository>) {
-        progressbar.visibility = View.GONE
         this.repositoriesList.addAll(insertIndex,newRepositoriesList)
         recyclerView.adapter!!.notifyItemRangeInserted(insertIndex,newRepositoriesList.size)
         pageMoreEntries = true
