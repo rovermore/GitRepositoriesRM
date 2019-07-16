@@ -11,12 +11,16 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.list_item_repository.view.*
 
 
-class MainAdapter(var context: Context, var repositoriesList: MutableList<Repository>?) : RecyclerView.Adapter<MainAdapter.MyViewHolder>() {
+class MainAdapter(var context: Context, var repositoriesList: MutableList<Repository>?, var itemClicked: OnItemClicked) : RecyclerView.Adapter<MainAdapter.MyViewHolder>() {
+
+    interface OnItemClicked {
+        fun itemClicked(repository: Repository)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainAdapter.MyViewHolder {
         var view = LayoutInflater.from(parent.context).inflate(R.layout.list_item_repository, parent, false)
 
-        return MyViewHolder(view)
+        return MyViewHolder(view, itemClicked, repositoriesList)
     }
 
     override fun getItemCount(): Int {
@@ -57,9 +61,22 @@ class MainAdapter(var context: Context, var repositoriesList: MutableList<Reposi
         notifyDataSetChanged()
     }
 
-    class MyViewHolder(v: View) : RecyclerView.ViewHolder(v) {
+    class MyViewHolder(v: View, itemClicked: OnItemClicked, repositoryList: MutableList<Repository>?) : RecyclerView.ViewHolder(v), View.OnClickListener {
 
         var view: View = v
+        var mItemClicked = itemClicked
+        var mRepositoryList = repositoryList
+
+        init{
+            view.setOnClickListener(this)
+        }
+
+        override fun onClick(v: View?) {
+            val position = adapterPosition
+            val clickedRepository = mRepositoryList?.get(position)
+            mItemClicked.itemClicked(clickedRepository!!)
+
+        }
     }
 
 }

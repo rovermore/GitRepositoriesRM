@@ -8,7 +8,7 @@ interface MainViewInterface {
 
     fun onReceivingMoreResults(insertIndex: Int, newRepositoriesList: MutableList<Repository>)
 
-    fun onErrorReceivingResults()
+    fun onErrorReceivingResults(error: String)
 
     fun onErrorReceivingSearchResults()
 }
