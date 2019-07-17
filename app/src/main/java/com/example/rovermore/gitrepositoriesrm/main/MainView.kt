@@ -1,6 +1,7 @@
 package com.example.rovermore.gitrepositoriesrm.main
 
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -19,13 +20,16 @@ class MainView : AppCompatActivity(),MainViewInterface, MainAdapter.OnItemClicke
     private lateinit var adapter : MainAdapter
     private lateinit var repositoriesList: MutableList<Repository>
     private var pageMoreEntries = true
-
+    private var isSearchedButtonClicked = false
+    private var pageNumber = 0
+    private lateinit var search: String
     private val LOGIN = "login"
     private val REPOSITORY = "repository"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(com.example.rovermore.gitrepositoriesrm.R.layout.activity_main)
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
 
         recyclerView = recycler_view
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -42,12 +46,24 @@ class MainView : AppCompatActivity(),MainViewInterface, MainAdapter.OnItemClicke
                 if (!recyclerView.canScrollVertically(1)) {
                     if(pageMoreEntries){
                         Toast.makeText(baseContext, "Loading...", Toast.LENGTH_SHORT).show()
-                        mainPresenterInterface.getAllRepositories()
+                        if(isSearchedButtonClicked){
+                            pageNumber = pageNumber + 1
+                            mainPresenterInterface.getSearchRepositories(search, pageNumber)
+                        } else {
+                            mainPresenterInterface.getAllRepositories()
+                        }
                         pageMoreEntries = false
                     }
                 }
             }
         })
+
+        button_search.setOnClickListener {
+            pageNumber = 0
+            search = et_search.text.toString()
+            mainPresenterInterface.getSearchRepositories(search, pageNumber)
+            isSearchedButtonClicked = true
+        }
     }
 
     private fun createUi(repositoriesList: MutableList<Repository>){
@@ -55,7 +71,7 @@ class MainView : AppCompatActivity(),MainViewInterface, MainAdapter.OnItemClicke
         adapter.updateRepositoriesList(this.repositoriesList)
     }
 
-    override fun onReceiveAllResults(repositoriesList: MutableList<Repository>) {
+    override fun onReceiveFirstResults(repositoriesList: MutableList<Repository>) {
         createUi(repositoriesList)
     }
 
@@ -64,11 +80,6 @@ class MainView : AppCompatActivity(),MainViewInterface, MainAdapter.OnItemClicke
         recyclerView.adapter!!.notifyItemRangeInserted(insertIndex,newRepositoriesList.size)
         pageMoreEntries = true
 
-    }
-
-    override fun onErrorReceivingSearchResults() {
-        /*Snackbar.make(searchButton, "Error when connecting the network", Snackbar.LENGTH_SHORT)
-            .setAction("Retry", View.OnClickListener { mainPresenterInterface.getAllRepositories()() }).show()*/
     }
 
     override fun onErrorReceivingResults(error: String) {

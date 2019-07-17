@@ -1,6 +1,7 @@
 package com.example.rovermore.gitrepositoriesrm.detail
 
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
@@ -20,6 +21,8 @@ class DetailView : AppCompatActivity(), DetailViewInterface {
         super.onCreate(savedInstanceState)
         setContentView(com.example.rovermore.gitrepositoriesrm.R.layout.activity_detail_view)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+
         setTitle("Repository")
 
         val login = intent?.extras!!.get(LOGIN) as String
