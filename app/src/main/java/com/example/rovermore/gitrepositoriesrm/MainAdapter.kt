@@ -20,7 +20,7 @@ class MainAdapter(var context: Context, var repositoriesList: MutableList<Reposi
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainAdapter.MyViewHolder {
         var view = LayoutInflater.from(parent.context).inflate(R.layout.list_item_repository, parent, false)
 
-        return MyViewHolder(view, itemClicked, repositoriesList)
+        return MyViewHolder(view)
     }
 
     override fun getItemCount(): Int {
@@ -61,20 +61,27 @@ class MainAdapter(var context: Context, var repositoriesList: MutableList<Reposi
         notifyDataSetChanged()
     }
 
-    class MyViewHolder(v: View, itemClicked: OnItemClicked, repositoryList: MutableList<Repository>?) : RecyclerView.ViewHolder(v), View.OnClickListener {
+    fun clearMainAdapter() {
+        if (repositoriesList != null) {
+            repositoriesList!!.clear()
+            repositoriesList = null
+            notifyDataSetChanged()
+        }
+    }
+
+    inner class MyViewHolder(v: View) : RecyclerView.ViewHolder(v), View.OnClickListener {
 
         var view: View = v
-        var mItemClicked = itemClicked
-        var mRepositoryList = repositoryList
 
         init{
             view.setOnClickListener(this)
         }
 
         override fun onClick(v: View?) {
+
             val position = adapterPosition
-            val clickedRepository = mRepositoryList?.get(position)
-            mItemClicked.itemClicked(clickedRepository!!)
+            val clickedRepository = repositoriesList?.get(position)
+            itemClicked.itemClicked(clickedRepository!!)
 
         }
     }

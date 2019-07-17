@@ -101,7 +101,6 @@ class MainPresenter(var lastRepositoryID: Int?, var mainViewInterface: MainViewI
                             }
                         }
 
-
                     } else {
 
                         Log.d(LOG_TAG, "RESPONSE BODY IS NULL")

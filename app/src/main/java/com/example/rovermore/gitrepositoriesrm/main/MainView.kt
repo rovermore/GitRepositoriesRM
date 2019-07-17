@@ -68,6 +68,7 @@ class MainView : AppCompatActivity(),MainViewInterface, MainAdapter.OnItemClicke
 
     private fun createUi(repositoriesList: MutableList<Repository>){
         this.repositoriesList = repositoriesList
+        adapter.clearMainAdapter()
         adapter.updateRepositoriesList(this.repositoriesList)
     }
 
