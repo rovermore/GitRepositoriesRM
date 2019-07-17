@@ -14,7 +14,12 @@ class MainPresenter(var lastRepositoryID: Int?, var mainViewInterface: MainViewI
     private val ERROR = "Error al recibir datos del servidor"
     private var positionIndex = 0
 
-    override fun getAllRepositories() {
+    override fun getAllRepositories(isFreshFetch: Boolean) {
+
+        if(isFreshFetch) {
+            positionIndex = 0
+            lastRepositoryID = 0
+        }
 
         val gitHubApi by lazy {
             GitHubAPI.create()
@@ -33,13 +38,15 @@ class MainPresenter(var lastRepositoryID: Int?, var mainViewInterface: MainViewI
                     val repositoriesList = response.body()
                     if (repositoriesList != null) {
 
-                        if(lastRepositoryID!!.equals(0)) {
-                            positionIndex = 0
+                        if(isFreshFetch) {
+                            //positionIndex = 0
+                            //lastRepositoryID = 0
                             mainViewInterface.onReceiveFirstResults(repositoriesList)
 
                         } else {
 
                             positionIndex = positionIndex + repositoriesList.size
+
                             mainViewInterface.onReceivingMoreResults(positionIndex,repositoriesList)
 
                         }
@@ -89,7 +96,7 @@ class MainPresenter(var lastRepositoryID: Int?, var mainViewInterface: MainViewI
 
                         if (repositoriesList != null) {
 
-                            if(pageNumber==0) {
+                            if(pageNumber==1) {
 
                                 positionIndex = 0
                                 mainViewInterface.onReceiveFirstResults(repositoriesList)

@@ -12,6 +12,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/et_search"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
             android:hint="@string/hint_edit_text"/>
 
     <Button
@@ -21,6 +23,7 @@
             android:text="@string/buton_search_text"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
+            android:layout_marginBottom="2dp"
             android:textColor="@color/colorTextOverbackground"
             android:stateListAnimator="@anim/button_raise"
             android:background="@drawable/ripple_touch_selector"/>

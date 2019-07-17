@@ -1,20 +1,25 @@
 package com.example.rovermore.gitrepositoriesrm.main
 
+
+
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rovermore.gitrepositoriesrm.MainAdapter
+import com.example.rovermore.gitrepositoriesrm.R
 import com.example.rovermore.gitrepositoriesrm.datamodel.Owner
 import com.example.rovermore.gitrepositoriesrm.datamodel.Repository
 import com.example.rovermore.gitrepositoriesrm.detail.DetailView
 import kotlinx.android.synthetic.main.activity_main.*
 
 
-class MainView : AppCompatActivity(),MainViewInterface, MainAdapter.OnItemClicked {
+class MainView : AppCompatActivity(), MainViewInterface, MainAdapter.OnItemClicked {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter : MainAdapter
@@ -25,6 +30,7 @@ class MainView : AppCompatActivity(),MainViewInterface, MainAdapter.OnItemClicke
     private lateinit var search: String
     private val LOGIN = "login"
     private val REPOSITORY = "repository"
+    private lateinit var mainPresenterInterface: MainPresenterInterface
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,9 +42,9 @@ class MainView : AppCompatActivity(),MainViewInterface, MainAdapter.OnItemClicke
         adapter = MainAdapter(this,null, this)
         recyclerView.adapter = adapter
 
-        val mainPresenterInterface: MainPresenterInterface = MainPresenter(0, this)
+        mainPresenterInterface = MainPresenter(0, this)
 
-        mainPresenterInterface.getAllRepositories()
+        mainPresenterInterface.getAllRepositories(true)
 
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
@@ -50,7 +56,7 @@ class MainView : AppCompatActivity(),MainViewInterface, MainAdapter.OnItemClicke
                             pageNumber = pageNumber + 1
                             mainPresenterInterface.getSearchRepositories(search, pageNumber)
                         } else {
-                            mainPresenterInterface.getAllRepositories()
+                            mainPresenterInterface.getAllRepositories(false)
                         }
                         pageMoreEntries = false
                     }
@@ -59,7 +65,7 @@ class MainView : AppCompatActivity(),MainViewInterface, MainAdapter.OnItemClicke
         })
 
         button_search.setOnClickListener {
-            pageNumber = 0
+            pageNumber = 1
             search = et_search.text.toString()
             mainPresenterInterface.getSearchRepositories(search, pageNumber)
             isSearchedButtonClicked = true
@@ -97,4 +103,24 @@ class MainView : AppCompatActivity(),MainViewInterface, MainAdapter.OnItemClicke
         startActivity(intent)
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.menu_main_view, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+
+        when(item?.itemId){
+
+            R.id.clear_results ->{
+                isSearchedButtonClicked = false
+                mainPresenterInterface.getAllRepositories(true)
+                et_search.text.clear()
+
+            }
+        }
+
+        return super.onOptionsItemSelected(item)
+    }
 }

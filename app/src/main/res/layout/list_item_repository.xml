@@ -40,7 +40,6 @@
                     android:layout_weight="1"
                     android:id="@+id/tv_repository_name"
                     android:textStyle="bold"
-                    android:textSize="18sp"
                     />
 
             <TextView
@@ -59,6 +58,7 @@
             <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
+                    android:layout_marginEnd="8dp"
                     android:background="@color/colorGreyLight"/>
 
         </LinearLayout>

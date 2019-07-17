@@ -41,7 +41,7 @@ class MainAdapter(var context: Context, var repositoriesList: MutableList<Reposi
                     holder.view.tv_repository_description.text = repositoriesList!![position].description
                 } else {
                     holder.view.tv_repository_description.text =
-                        StringBuilder(repositoriesList!![position].description!!.substring(0, 60)).append("...")
+                        StringBuilder(repositoriesList!![position].description!!.substring(0, 50)).append("...")
                             .toString()
                 }
             }
