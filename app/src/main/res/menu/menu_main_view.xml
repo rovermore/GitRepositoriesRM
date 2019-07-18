@@ -7,6 +7,6 @@
             android:orderInCategory="1"
             android:id="@+id/clear_results"
             app:showAsAction="always"
-            android:title="Borrar búsqueda"/>
+            android:title="Borrar busqueda"/>
 
 </menu>
