@@ -14,6 +14,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.rule.ActivityTestRule
 import androidx.test.runner.AndroidJUnit4
 import androidx.test.runner.AndroidJUnitRunner
+import com.example.rovermore.gitrepositoriesrm.adapters.MainAdapter
 import com.example.rovermore.gitrepositoriesrm.detail.DetailView
 import com.example.rovermore.gitrepositoriesrm.main.MainView
 import org.hamcrest.CoreMatchers.not

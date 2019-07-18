@@ -11,7 +11,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.rovermore.gitrepositoriesrm.MainAdapter
+import com.example.rovermore.gitrepositoriesrm.adapters.MainAdapter
 import com.example.rovermore.gitrepositoriesrm.R
 import com.example.rovermore.gitrepositoriesrm.datamodel.Owner
 import com.example.rovermore.gitrepositoriesrm.datamodel.Repository

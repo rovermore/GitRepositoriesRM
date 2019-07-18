@@ -1,4 +1,4 @@
-package com.example.rovermore.gitrepositoriesrm
+package com.example.rovermore.gitrepositoriesrm.network
 
 import com.example.rovermore.gitrepositoriesrm.datamodel.Repository
 import com.example.rovermore.gitrepositoriesrm.datamodel.RepositoryDetail

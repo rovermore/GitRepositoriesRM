@@ -1,10 +1,11 @@
-package com.example.rovermore.gitrepositoriesrm
+package com.example.rovermore.gitrepositoriesrm.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.rovermore.gitrepositoriesrm.R
 import com.example.rovermore.gitrepositoriesrm.datamodel.Owner
 import com.example.rovermore.gitrepositoriesrm.datamodel.Repository
 import com.squareup.picasso.Picasso
@@ -17,7 +18,7 @@ class MainAdapter(var context: Context, var repositoriesList: MutableList<Reposi
         fun itemClicked(repository: Repository)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainAdapter.MyViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         var view = LayoutInflater.from(parent.context).inflate(R.layout.list_item_repository, parent, false)
 
         return MyViewHolder(view)
@@ -30,7 +31,7 @@ class MainAdapter(var context: Context, var repositoriesList: MutableList<Reposi
         return repositoriesList!!.size
     }
 
-    override fun onBindViewHolder(holder: MainAdapter.MyViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
         if(!repositoriesList.isNullOrEmpty()) {
 

@@ -1,4 +1,4 @@
-package com.example.rovermore.gitrepositoriesrm
+package com.example.rovermore.gitrepositoriesrm.network
 
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

@@ -1,7 +1,7 @@
 package com.example.rovermore.gitrepositoriesrm.detail
 
 import android.util.Log
-import com.example.rovermore.gitrepositoriesrm.GitHubAPI
+import com.example.rovermore.gitrepositoriesrm.network.GitHubAPI
 import com.example.rovermore.gitrepositoriesrm.datamodel.RepositoryDetail
 import retrofit2.Call
 import retrofit2.Callback
