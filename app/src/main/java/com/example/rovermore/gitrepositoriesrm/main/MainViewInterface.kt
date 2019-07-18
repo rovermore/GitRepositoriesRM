@@ -10,4 +10,6 @@ interface MainViewInterface {
 
     fun onErrorReceivingResults(error: String)
 
+    fun onResultsNotFound(error: String)
+
 }

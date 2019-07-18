@@ -11,8 +11,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.rovermore.gitrepositoriesrm.adapters.MainAdapter
 import com.example.rovermore.gitrepositoriesrm.R
+import com.example.rovermore.gitrepositoriesrm.adapters.MainAdapter
 import com.example.rovermore.gitrepositoriesrm.datamodel.Owner
 import com.example.rovermore.gitrepositoriesrm.datamodel.Repository
 import com.example.rovermore.gitrepositoriesrm.detail.DetailView
@@ -94,13 +94,24 @@ class MainView : AppCompatActivity(), MainViewInterface, MainAdapter.OnItemClick
         })
 
         button_search.setOnClickListener {
-            progressbar_main.visibility = View.VISIBLE
-            progressbar_scroll.visibility = View.GONE
-            recyclerView.visibility = View.GONE
-            pageNumber = 1
-            search = et_search.text.toString()
-            mainPresenterInterface.getSearchRepositories(search, pageNumber)
-            isSearchedButtonClicked = true
+
+            if(et_search.text.isNullOrBlank()){
+
+                progressbar_scroll.visibility = View.GONE
+                recyclerView.visibility = View.GONE
+                tv_user_message.text = resources.getString(R.string.user_search_request)
+                tv_user_message.visibility = View.VISIBLE
+
+            } else {
+                tv_user_message.visibility = View.GONE
+                progressbar_scroll.visibility = View.GONE
+                recyclerView.visibility = View.GONE
+                progressbar_main.visibility = View.VISIBLE
+                pageNumber = 1
+                search = et_search.text.toString()
+                mainPresenterInterface.getSearchRepositories(search, pageNumber)
+                isSearchedButtonClicked = true
+            }
         }
     }
 
@@ -123,7 +134,15 @@ class MainView : AppCompatActivity(), MainViewInterface, MainAdapter.OnItemClick
     }
 
     override fun onErrorReceivingResults(error: String) {
-        Toast.makeText(this, error, Toast.LENGTH_SHORT).show()
+        Toast.makeText(applicationContext, error, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onResultsNotFound(error: String) {
+        progressbar_main.visibility = View.GONE
+        progressbar_scroll.visibility = View.GONE
+        recyclerView.visibility = View.GONE
+        tv_user_message.text = error
+        tv_user_message.visibility = View.VISIBLE
     }
 
     override fun itemClicked(repository: Repository) {
@@ -148,6 +167,7 @@ class MainView : AppCompatActivity(), MainViewInterface, MainAdapter.OnItemClick
 
             R.id.clear_results -> {
                 progressbar_main.visibility = View.VISIBLE
+                tv_user_message.visibility = View.GONE
                 recyclerView.visibility = View.GONE
                 progressbar_scroll.visibility = View.GONE
                 isSearchedButtonClicked = false
