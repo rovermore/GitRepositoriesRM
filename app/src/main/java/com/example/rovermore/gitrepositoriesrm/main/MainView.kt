@@ -7,6 +7,7 @@ import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -37,7 +38,12 @@ class MainView : AppCompatActivity(), MainViewInterface, MainAdapter.OnItemClick
         setContentView(com.example.rovermore.gitrepositoriesrm.R.layout.activity_main)
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
 
+        progressbar_main.visibility = View.VISIBLE
+
         recyclerView = recycler_view
+
+        recyclerView.visibility = View.GONE
+
         recyclerView.layoutManager = LinearLayoutManager(this)
         adapter = MainAdapter(this,null, this)
         recyclerView.adapter = adapter
@@ -65,6 +71,8 @@ class MainView : AppCompatActivity(), MainViewInterface, MainAdapter.OnItemClick
         })
 
         button_search.setOnClickListener {
+            progressbar_main.visibility = View.VISIBLE
+            recyclerView.visibility = View.GONE
             pageNumber = 1
             search = et_search.text.toString()
             mainPresenterInterface.getSearchRepositories(search, pageNumber)
@@ -73,6 +81,8 @@ class MainView : AppCompatActivity(), MainViewInterface, MainAdapter.OnItemClick
     }
 
     private fun createUi(repositoriesList: MutableList<Repository>){
+        progressbar_main.visibility = View.GONE
+        recyclerView.visibility = View.VISIBLE
         this.repositoriesList = repositoriesList
         adapter.clearMainAdapter()
         adapter.updateRepositoriesList(this.repositoriesList)
@@ -114,9 +124,12 @@ class MainView : AppCompatActivity(), MainViewInterface, MainAdapter.OnItemClick
         when(item?.itemId){
 
             R.id.clear_results ->{
+                progressbar_main.visibility = View.VISIBLE
+                recyclerView.visibility = View.GONE
                 isSearchedButtonClicked = false
                 mainPresenterInterface.getAllRepositories(true)
                 et_search.text.clear()
+
 
             }
         }

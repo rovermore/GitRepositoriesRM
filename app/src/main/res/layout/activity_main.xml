@@ -28,6 +28,13 @@
             android:stateListAnimator="@anim/button_raise"
             android:background="@drawable/ripple_touch_selector"/>
 
+    <ProgressBar
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:id="@+id/progressbar_main"
+            android:layout_gravity="center_horizontal"
+            android:visibility="gone"/>
+
     <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
