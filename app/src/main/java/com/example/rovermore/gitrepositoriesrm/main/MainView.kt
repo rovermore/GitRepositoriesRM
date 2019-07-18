@@ -1,7 +1,6 @@
 package com.example.rovermore.gitrepositoriesrm.main
 
 
-
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Bundle
@@ -23,15 +22,15 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainView : AppCompatActivity(), MainViewInterface, MainAdapter.OnItemClicked {
 
     private lateinit var recyclerView: RecyclerView
-    private lateinit var adapter : MainAdapter
+    private lateinit var adapter: MainAdapter
     private lateinit var repositoriesList: MutableList<Repository>
-    private var pageMoreEntries = true
     private var isSearchedButtonClicked = false
     private var pageNumber = 0
     private lateinit var search: String
     private val LOGIN = "login"
     private val REPOSITORY = "repository"
     private lateinit var mainPresenterInterface: MainPresenterInterface
+    private var isScrolling = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,8 +43,10 @@ class MainView : AppCompatActivity(), MainViewInterface, MainAdapter.OnItemClick
 
         recyclerView.visibility = View.GONE
 
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        adapter = MainAdapter(this,null, this)
+        val layoutManager = LinearLayoutManager(this)
+
+        recyclerView.layoutManager = layoutManager
+        adapter = MainAdapter(this, null, this)
         recyclerView.adapter = adapter
 
         mainPresenterInterface = MainPresenter(0, this)
@@ -53,25 +54,48 @@ class MainView : AppCompatActivity(), MainViewInterface, MainAdapter.OnItemClick
         mainPresenterInterface.getAllRepositories(true)
 
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+
+                if (dy > 0) {
+
+                    val visibleItemCount = layoutManager.childCount
+                    val scrolledItems = layoutManager.findFirstCompletelyVisibleItemPosition()
+                    val totalCount = layoutManager.itemCount
+
+                    if (isScrolling && (visibleItemCount + scrolledItems) == totalCount
+                        || !recyclerView.canScrollVertically(1)) {
+
+                        progressbar_scroll.visibility = View.VISIBLE
+
+                        if (isSearchedButtonClicked) {
+
+                            pageNumber++
+                            mainPresenterInterface.getSearchRepositories(search, pageNumber)
+
+                        } else {
+
+                            mainPresenterInterface.getAllRepositories(false)
+
+                        }
+                    }
+
+                }
+
+                super.onScrolled(recyclerView, dx, dy)
+            }
+
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
-                if (!recyclerView.canScrollVertically(1)) {
-                    if(pageMoreEntries){
-                        Toast.makeText(baseContext, "Loading...", Toast.LENGTH_SHORT).show()
-                        if(isSearchedButtonClicked){
-                            pageNumber = pageNumber + 1
-                            mainPresenterInterface.getSearchRepositories(search, pageNumber)
-                        } else {
-                            mainPresenterInterface.getAllRepositories(false)
-                        }
-                        pageMoreEntries = false
-                    }
-                }
+
+                isScrolling = true
+
             }
         })
 
         button_search.setOnClickListener {
             progressbar_main.visibility = View.VISIBLE
+            progressbar_scroll.visibility = View.GONE
             recyclerView.visibility = View.GONE
             pageNumber = 1
             search = et_search.text.toString()
@@ -80,7 +104,7 @@ class MainView : AppCompatActivity(), MainViewInterface, MainAdapter.OnItemClick
         }
     }
 
-    private fun createUi(repositoriesList: MutableList<Repository>){
+    private fun createUi(repositoriesList: MutableList<Repository>) {
         progressbar_main.visibility = View.GONE
         recyclerView.visibility = View.VISIBLE
         this.repositoriesList = repositoriesList
@@ -93,14 +117,13 @@ class MainView : AppCompatActivity(), MainViewInterface, MainAdapter.OnItemClick
     }
 
     override fun onReceivingMoreResults(insertIndex: Int, newRepositoriesList: MutableList<Repository>) {
-        this.repositoriesList.addAll(insertIndex,newRepositoriesList)
-        recyclerView.adapter!!.notifyItemRangeInserted(insertIndex,newRepositoriesList.size)
-        pageMoreEntries = true
-
+        progressbar_scroll.visibility = View.GONE
+        this.repositoriesList.addAll(insertIndex, newRepositoriesList)
+        recyclerView.adapter!!.notifyItemRangeInserted(insertIndex, newRepositoriesList.size)
     }
 
     override fun onErrorReceivingResults(error: String) {
-        Toast.makeText(this, error,Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, error, Toast.LENGTH_SHORT).show()
     }
 
     override fun itemClicked(repository: Repository) {
@@ -121,16 +144,15 @@ class MainView : AppCompatActivity(), MainViewInterface, MainAdapter.OnItemClick
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
 
-        when(item?.itemId){
+        when (item?.itemId) {
 
-            R.id.clear_results ->{
+            R.id.clear_results -> {
                 progressbar_main.visibility = View.VISIBLE
                 recyclerView.visibility = View.GONE
+                progressbar_scroll.visibility = View.GONE
                 isSearchedButtonClicked = false
                 mainPresenterInterface.getAllRepositories(true)
                 et_search.text.clear()
-
-
             }
         }
 
