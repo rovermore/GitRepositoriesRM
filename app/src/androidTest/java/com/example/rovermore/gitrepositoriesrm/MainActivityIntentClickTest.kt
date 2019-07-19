@@ -43,7 +43,6 @@ class MainActivityIntentClickTest : AndroidJUnitRunner() {
 
     @Test
     fun testClickRecyclerViewItem() {
-
         Espresso.onView(withId(R.id.recycler_view)).perform(
             RecyclerViewActions
                 .actionOnItemAtPosition<MainAdapter.MyViewHolder>(0, ViewActions.click())
@@ -57,13 +56,10 @@ class MainActivityIntentClickTest : AndroidJUnitRunner() {
                 hasComponent(DetailActivity::class.java.name)
             )
         )
-
     }
 
     @Test
     fun testRecyclerViewDisplays(){
-
         Espresso.onView(withId(R.id.recycler_view)).check(matches(isDisplayed()))
-
     }
 }

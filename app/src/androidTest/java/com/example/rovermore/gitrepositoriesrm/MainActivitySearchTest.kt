@@ -67,13 +67,10 @@ class MainActivitySearchTest : AndroidJUnitRunner() {
                 hasComponent(DetailActivity::class.java.name)
             )
         )
-
     }
 
     @Test
     fun testRecyclerViewDisplays(){
-
         Espresso.onView(withId(R.id.recycler_view)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-
     }
 }

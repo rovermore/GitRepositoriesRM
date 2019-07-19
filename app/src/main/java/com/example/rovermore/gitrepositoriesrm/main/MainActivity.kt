@@ -54,29 +54,8 @@ class MainActivity : AppCompatActivity(), MainViewInterface, MainAdapter.OnItemC
 
                 if (dy > 0) {
 
-                    val visibleItemCount = layoutManager.childCount
-                    val scrolledItems = layoutManager.findFirstCompletelyVisibleItemPosition()
-                    val totalCount = layoutManager.itemCount
-
-                    if (isScrolling && (visibleItemCount + scrolledItems) == totalCount
-                        || !recyclerView.canScrollVertically(1)) {
-
-                        progressbar_scroll.visibility = View.VISIBLE
-
-                        if (isSearchedButtonClicked) {
-
-                            pageNumber++
-                            mainPresenterInterface.getSearchRepositories(search, pageNumber)
-
-                        } else {
-
-                            mainPresenterInterface.getAllRepositories(false)
-
-                        }
-                    }
-
+                    setUpScrollLoader()
                 }
-
                 super.onScrolled(recyclerView, dx, dy)
             }
 
@@ -84,30 +63,60 @@ class MainActivity : AppCompatActivity(), MainViewInterface, MainAdapter.OnItemC
                 super.onScrollStateChanged(recyclerView, newState)
 
                 isScrolling = true
-
             }
         })
 
         button_search.setOnClickListener {
+            checkSearch()
+        }
+    }
 
-            if(et_search.text.isNullOrBlank()){
+    private fun setUpScrollLoader() {
 
-                progressbar_scroll.visibility = View.GONE
-                recyclerView.visibility = View.GONE
-                tv_user_message.text = resources.getString(R.string.user_search_request)
-                tv_user_message.visibility = View.VISIBLE
+        val visibleItemCount = layoutManager.childCount
+        val scrolledItems = layoutManager.findFirstCompletelyVisibleItemPosition()
+        val totalCount = layoutManager.itemCount
+
+        if (isScrolling && (visibleItemCount + scrolledItems) == totalCount
+            || !recyclerView.canScrollVertically(1)) {
+
+            progressbar_scroll.visibility = View.VISIBLE
+
+            if (isSearchedButtonClicked) {
+
+                pageNumber++
+                mainPresenterInterface.getSearchRepositories(search, pageNumber)
 
             } else {
-                tv_user_message.visibility = View.GONE
-                progressbar_scroll.visibility = View.GONE
-                recyclerView.visibility = View.GONE
-                progressbar_main.visibility = View.VISIBLE
-                pageNumber = 1
-                search = et_search.text.toString()
-                mainPresenterInterface.getSearchRepositories(search, pageNumber)
-                isSearchedButtonClicked = true
+
+                mainPresenterInterface.getAllRepositories(false)
             }
         }
+    }
+
+    private fun checkSearch() {
+
+        if(et_search.text.isNullOrBlank()){
+
+            progressbar_scroll.visibility = View.GONE
+            recyclerView.visibility = View.GONE
+            tv_user_message.text = resources.getString(R.string.user_search_request)
+            tv_user_message.visibility = View.VISIBLE
+
+        } else {
+            executeSearch()
+        }
+    }
+
+    private fun executeSearch() {
+        tv_user_message.visibility = View.GONE
+        progressbar_scroll.visibility = View.GONE
+        recyclerView.visibility = View.GONE
+        progressbar_main.visibility = View.VISIBLE
+        pageNumber = 1
+        search = et_search.text.toString()
+        mainPresenterInterface.getSearchRepositories(search, pageNumber)
+        isSearchedButtonClicked = true
     }
 
     private fun setUpRecyclerView() {

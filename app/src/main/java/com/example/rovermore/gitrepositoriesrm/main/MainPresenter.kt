@@ -81,8 +81,7 @@ class MainPresenter(var lastRepositoryID: Int?, var mainViewInterface: MainViewI
                 if (!response.isSuccessful) run {
                     Log.e(LOG_TAG, "Response code is: " + response.code())
 
-                        mainViewInterface.onErrorReceivingResults(ERROR)
-
+                    mainViewInterface.onErrorReceivingResults(ERROR)
 
                 } else {
 

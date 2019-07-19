@@ -12,7 +12,11 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.list_item_repository.view.*
 
 
-class MainAdapter(var context: Context, var repositoriesList: MutableList<Repository>?, var itemClicked: OnItemClicked) : RecyclerView.Adapter<MainAdapter.MyViewHolder>() {
+class MainAdapter(
+                  var context: Context,
+                  var repositoriesList: MutableList<Repository>?,
+                  var itemClicked: OnItemClicked
+                  ) : RecyclerView.Adapter<MainAdapter.MyViewHolder>() {
 
     interface OnItemClicked {
         fun itemClicked(repository: Repository)
@@ -92,7 +96,7 @@ class MainAdapter(var context: Context, var repositoriesList: MutableList<Reposi
             v.tv_owner.text = currentOwner!!.login
 
             val photoUrl = currentOwner.avatarUrl
-            if (photoUrl!!.isNotBlank()) {
+            if (photoUrl.isNotBlank()) {
 
                 Picasso.with(context).load(photoUrl).into(v.iv_cicle_profile_image)
 
