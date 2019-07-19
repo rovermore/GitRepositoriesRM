@@ -21,16 +21,18 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), MainViewInterface, MainAdapter.OnItemClicked {
 
+    private val LOGIN = "login"
+    private val REPOSITORY = "repository"
+
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: MainAdapter
     private lateinit var repositoriesList: MutableList<Repository>
     private val layoutManager = LinearLayoutManager(this)
+    private lateinit var mainPresenterInterface: MainPresenterInterface
+
     private var isSearchedButtonClicked = false
     private var pageNumber = 0
     private lateinit var search: String
-    private val LOGIN = "login"
-    private val REPOSITORY = "repository"
-    private lateinit var mainPresenterInterface: MainPresenterInterface
     private var isScrolling = false
 
     override fun onCreate(savedInstanceState: Bundle?) {

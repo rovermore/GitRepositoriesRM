@@ -37,7 +37,7 @@ class DetailActivity : AppCompatActivity(), DetailViewInterface {
     }
 
     override fun onReceiveRepositoryDetail(repositoryDetail: RepositoryDetail) {
-        val owner: Owner = repositoryDetail.owner!!
+        val owner: Owner = repositoryDetail.owner
         Picasso.with(this).load(owner.avatarUrl).into(iv_profile_detail)
         tv_repository_name_detail.text = repositoryDetail.name
         tv_login_detail.text = owner.login
@@ -51,7 +51,7 @@ class DetailActivity : AppCompatActivity(), DetailViewInterface {
 
         tv_url_user_detail.setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW)
-            intent.setData(Uri.parse(owner.htmlUrl))
+            intent.data = Uri.parse(owner.htmlUrl)
             startActivity(intent)
         }
     }

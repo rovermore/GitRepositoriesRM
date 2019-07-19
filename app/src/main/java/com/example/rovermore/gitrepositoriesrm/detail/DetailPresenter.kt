@@ -21,11 +21,15 @@ class DetailPresenter(var login: String, var reporitoryName: String, var detailV
             override fun onResponse(call: Call<RepositoryDetail>, response: Response<RepositoryDetail>) {
                 if (!response.isSuccessful) run {
                     Log.e(LOG_TAG, "Response code is: " + response.code())
+
                     detailViewInterface.onErrorReceivingRepositoryDetail(ERROR_MSG)
+
                 } else {
                     val repositoryDetail = response.body()
+
                     if(repositoryDetail != null){
                         detailViewInterface.onReceiveRepositoryDetail(repositoryDetail)
+
                     } else {
                         detailViewInterface.onErrorReceivingRepositoryDetail(ERROR_MSG)
                     }
@@ -34,6 +38,7 @@ class DetailPresenter(var login: String, var reporitoryName: String, var detailV
 
             override fun onFailure(call: Call<RepositoryDetail>, t: Throwable) {
                 t?.printStackTrace()
+
                 detailViewInterface.onErrorReceivingRepositoryDetail(ERROR_MSG)
             }
         })

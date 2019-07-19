@@ -13,6 +13,7 @@ class MainPresenter(var lastRepositoryID: Int?, var mainViewInterface: MainViewI
     private val LOG_TAG = "MainPresenter"
     private val ERROR = "Error al recibir datos del servidor"
     private val NO_RESULTS_FOUND = "No se encontraron resultados"
+
     private var positionIndex = 0
     private val networkManager: NetworkManager = NetworkManager()
 
@@ -27,9 +28,10 @@ class MainPresenter(var lastRepositoryID: Int?, var mainViewInterface: MainViewI
         call.enqueue(object : Callback<MutableList<Repository>> {
 
             override fun onResponse(call: Call<MutableList<Repository>>, response: Response<MutableList<Repository>>) {
-                if (!response.isSuccessful) run {
 
+                if (!response.isSuccessful) run {
                     Log.e(LOG_TAG, "Response code is: " + response.code())
+
                     mainViewInterface.onErrorReceivingResults(ERROR)
 
                 } else {
@@ -37,11 +39,9 @@ class MainPresenter(var lastRepositoryID: Int?, var mainViewInterface: MainViewI
                     if (repositoriesList != null) {
 
                         if(isFreshFetch) {
-
                             mainViewInterface.onReceiveFirstResults(repositoriesList)
 
                         } else {
-
                             positionIndex += repositoriesList.size
 
                             mainViewInterface.onReceivingMoreResults(positionIndex,repositoriesList)
@@ -51,19 +51,21 @@ class MainPresenter(var lastRepositoryID: Int?, var mainViewInterface: MainViewI
                         lastRepositoryID = repositoriesList[repositoriesList.size -1].id
 
                     } else {
-
                         mainViewInterface.onErrorReceivingResults(ERROR)
 
                     }
-
                 }
             }
 
             override fun onFailure(call: Call<MutableList<Repository>>, t: Throwable) {
                 t.printStackTrace()
 
-                //TODO SABER SI EL TROWABLE ES ERROR DE CONEXION O PETICIONES DE API PARA MOSTRAR UN TOAST O MENSAJE
-                mainViewInterface.onErrorReceivingResults(ERROR)
+                if(isFreshFetch){
+                    mainViewInterface.onResultsNotFound(ERROR)
+
+                } else {
+                    mainViewInterface.onErrorReceivingResults(ERROR)
+                }
             }
         })
     }
@@ -77,7 +79,6 @@ class MainPresenter(var lastRepositoryID: Int?, var mainViewInterface: MainViewI
             override fun onResponse(call: Call<Search>, response: Response<Search>) {
 
                 if (!response.isSuccessful) run {
-
                     Log.e(LOG_TAG, "Response code is: " + response.code())
 
                         mainViewInterface.onErrorReceivingResults(ERROR)
@@ -88,26 +89,21 @@ class MainPresenter(var lastRepositoryID: Int?, var mainViewInterface: MainViewI
                     val search = response.body()
 
                     if(search?.totalCount != 0) {
-
                         val repositoriesList = search?.repository
 
                         if (repositoriesList != null) {
 
                             if(pageNumber==1) {
-
                                 positionIndex = 0
                                 mainViewInterface.onReceiveFirstResults(repositoriesList)
 
                             } else {
-
                                 positionIndex += repositoriesList.size
                                 mainViewInterface.onReceivingMoreResults(positionIndex,repositoriesList)
                             }
                         }
 
                     } else {
-
-                        Log.d(LOG_TAG, "RESPONSE BODY IS NULL")
                         mainViewInterface.onResultsNotFound(NO_RESULTS_FOUND)
                     }
                 }
@@ -115,7 +111,13 @@ class MainPresenter(var lastRepositoryID: Int?, var mainViewInterface: MainViewI
 
             override fun onFailure(call: Call<Search>, t: Throwable) {
                 t?.printStackTrace()
-                mainViewInterface.onErrorReceivingResults(ERROR)
+
+                if(pageNumber == 1){
+                    mainViewInterface.onResultsNotFound(ERROR)
+
+                } else {
+                    mainViewInterface.onErrorReceivingResults(ERROR)
+                }
             }
         })
     }
