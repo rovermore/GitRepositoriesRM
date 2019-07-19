@@ -4,6 +4,7 @@ import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.net.Uri
 import android.os.Bundle
+import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.rovermore.gitrepositoriesrm.datamodel.Owner
@@ -20,12 +21,9 @@ class DetailActivity : AppCompatActivity(), DetailViewInterface {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(com.example.rovermore.gitrepositoriesrm.R.layout.activity_detail_view)
-        //TODO MIRAR PARA QUE VUELVA A LA ACTIVITY ANTERIOS SIN RECARGAR
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeButtonEnabled(true)
-
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-
         title = "Repository"
 
         val login = intent?.extras!!.get(LOGIN) as String
@@ -58,5 +56,18 @@ class DetailActivity : AppCompatActivity(), DetailViewInterface {
 
     override fun onErrorReceivingRepositoryDetail(error: String) {
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+
+        when (item?.itemId) {
+
+            android.R.id.home -> {
+                onBackPressed()
+                return true
+            }
+        }
+
+        return super.onOptionsItemSelected(item)
     }
 }
