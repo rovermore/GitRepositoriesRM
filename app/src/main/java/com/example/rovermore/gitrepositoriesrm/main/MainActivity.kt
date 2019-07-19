@@ -24,6 +24,7 @@ class MainActivity : AppCompatActivity(), MainViewInterface, MainAdapter.OnItemC
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: MainAdapter
     private lateinit var repositoriesList: MutableList<Repository>
+    private val layoutManager = LinearLayoutManager(this)
     private var isSearchedButtonClicked = false
     private var pageNumber = 0
     private lateinit var search: String
@@ -37,19 +38,9 @@ class MainActivity : AppCompatActivity(), MainViewInterface, MainAdapter.OnItemC
         setContentView(R.layout.activity_main)
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
-        //TODO PONER TODO ESTO EN METODOS MAS LIMPIO
-
         progressbar_main.visibility = View.VISIBLE
 
-        recyclerView = recycler_view
-
-        recyclerView.visibility = View.GONE
-
-        val layoutManager = LinearLayoutManager(this)
-
-        recyclerView.layoutManager = layoutManager
-        adapter = MainAdapter(this, null, this)
-        recyclerView.adapter = adapter
+        setUpRecyclerView()
 
         mainPresenterInterface = MainPresenter(0, this)
 
@@ -115,6 +106,14 @@ class MainActivity : AppCompatActivity(), MainViewInterface, MainAdapter.OnItemC
                 isSearchedButtonClicked = true
             }
         }
+    }
+
+    private fun setUpRecyclerView() {
+        recyclerView = recycler_view
+        recyclerView.visibility = View.GONE
+        recyclerView.layoutManager = layoutManager
+        adapter = MainAdapter(this, null, this)
+        recyclerView.adapter = adapter
     }
 
     private fun createUi(repositoriesList: MutableList<Repository>) {
