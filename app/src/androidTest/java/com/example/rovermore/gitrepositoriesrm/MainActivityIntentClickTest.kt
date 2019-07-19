@@ -3,20 +3,19 @@ package com.example.rovermore.gitrepositoriesrm
 import android.app.Activity
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.action.ViewActions
-import androidx.test.espresso.assertion.ViewAssertions
+import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.intent.Intents.intended
 import androidx.test.espresso.intent.Intents.intending
 import androidx.test.espresso.intent.matcher.IntentMatchers.*
 import androidx.test.espresso.intent.rule.IntentsTestRule
-import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.test.rule.ActivityTestRule
 import androidx.test.runner.AndroidJUnit4
 import androidx.test.runner.AndroidJUnitRunner
 import com.example.rovermore.gitrepositoriesrm.adapters.MainAdapter
-import com.example.rovermore.gitrepositoriesrm.detail.DetailView
-import com.example.rovermore.gitrepositoriesrm.main.MainView
+import com.example.rovermore.gitrepositoriesrm.detail.DetailActivity
+import com.example.rovermore.gitrepositoriesrm.main.MainActivity
 import org.hamcrest.CoreMatchers.not
 import org.hamcrest.core.AllOf.allOf
 import org.junit.Before
@@ -25,18 +24,13 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class MainViewSearchTest : AndroidJUnitRunner() {
-
-
-    @get:Rule
-    private val activityRule = ActivityTestRule(
-        MainView::class.java, false, false)
+class MainActivityIntentClickTest : AndroidJUnitRunner() {
 
 
     @Rule
     @JvmField
-    var mActivityRule: IntentsTestRule<MainView> = IntentsTestRule(
-        MainView::class.java
+    var mActivityRule: IntentsTestRule<MainActivity> = IntentsTestRule(
+        MainActivity::class.java
     )
 
     @Before
@@ -46,25 +40,21 @@ class MainViewSearchTest : AndroidJUnitRunner() {
         intending(not(isInternal())).respondWith(ActivityResult(Activity.RESULT_OK, null))
     }
 
-    @Test
-    @Throws(Exception::class)
-    fun testSearch() {
-        Espresso.onView(ViewMatchers.withId(R.id.et_search))
-            .perform(ViewActions.replaceText("tetris"))
 
-        Espresso.onView(ViewMatchers.withId(R.id.button_search))
-            .perform(ViewActions.click())
+    @Test
+    fun testClickRecyclerViewItem() {
 
         Espresso.onView(withId(R.id.recycler_view)).perform(
             RecyclerViewActions
                 .actionOnItemAtPosition<MainAdapter.MyViewHolder>(0, ViewActions.click())
         )
 
+
         intended(
             allOf(
-                hasExtra("login", "chvin"),
-                hasExtra("repository", "react-tetris"),
-                hasComponent(DetailView::class.java.name)
+                hasExtra("login", "mojombo"),
+                hasExtra("repository", "grit"),
+                hasComponent(DetailActivity::class.java.name)
             )
         )
 
@@ -73,7 +63,7 @@ class MainViewSearchTest : AndroidJUnitRunner() {
     @Test
     fun testRecyclerViewDisplays(){
 
-        Espresso.onView(withId(R.id.recycler_view)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        Espresso.onView(withId(R.id.recycler_view)).check(matches(isDisplayed()))
 
     }
 }

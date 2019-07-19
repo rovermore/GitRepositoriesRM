@@ -4,8 +4,6 @@ import com.example.rovermore.gitrepositoriesrm.datamodel.Repository
 import com.example.rovermore.gitrepositoriesrm.datamodel.RepositoryDetail
 import com.example.rovermore.gitrepositoriesrm.datamodel.Search
 import retrofit2.Call
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -25,19 +23,4 @@ interface GitHubAPI {
         @Path("repo") repo: String
     ): Call<RepositoryDetail>
 
-    companion object {
-        fun create(): GitHubAPI {
-
-            val networkUtils by lazy {
-                NetworkUtils.create()
-            }
-
-            val retrofit: Retrofit = Retrofit.Builder()
-                .client(networkUtils.getClient())
-                        .addConverterFactory(GsonConverterFactory.create())
-                        .baseUrl(networkUtils.BASE_URL)
-                        .build()
-            return retrofit.create(GitHubAPI::class.java)
-        }
-    }
 }

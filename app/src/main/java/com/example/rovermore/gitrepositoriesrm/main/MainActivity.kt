@@ -15,11 +15,11 @@ import com.example.rovermore.gitrepositoriesrm.R
 import com.example.rovermore.gitrepositoriesrm.adapters.MainAdapter
 import com.example.rovermore.gitrepositoriesrm.datamodel.Owner
 import com.example.rovermore.gitrepositoriesrm.datamodel.Repository
-import com.example.rovermore.gitrepositoriesrm.detail.DetailView
+import com.example.rovermore.gitrepositoriesrm.detail.DetailActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
 
-class MainView : AppCompatActivity(), MainViewInterface, MainAdapter.OnItemClicked {
+class MainActivity : AppCompatActivity(), MainViewInterface, MainAdapter.OnItemClicked {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: MainAdapter
@@ -34,8 +34,10 @@ class MainView : AppCompatActivity(), MainViewInterface, MainAdapter.OnItemClick
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(com.example.rovermore.gitrepositoriesrm.R.layout.activity_main)
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+        setContentView(R.layout.activity_main)
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+
+        //TODO PONER TODO ESTO EN METODOS MAS LIMPIO
 
         progressbar_main.visibility = View.VISIBLE
 
@@ -135,6 +137,7 @@ class MainView : AppCompatActivity(), MainViewInterface, MainAdapter.OnItemClick
 
     override fun onErrorReceivingResults(error: String) {
         Toast.makeText(applicationContext, error, Toast.LENGTH_SHORT).show()
+        progressbar_scroll.visibility = View.GONE
     }
 
     override fun onResultsNotFound(error: String) {
@@ -149,7 +152,7 @@ class MainView : AppCompatActivity(), MainViewInterface, MainAdapter.OnItemClick
         val owner: Owner? = repository.owner
         val login = owner!!.login
 
-        intent = Intent(applicationContext, DetailView::class.java)
+        intent = Intent(applicationContext, DetailActivity::class.java)
         intent.putExtra(LOGIN, login)
         intent.putExtra(REPOSITORY, repository.name)
         startActivity(intent)

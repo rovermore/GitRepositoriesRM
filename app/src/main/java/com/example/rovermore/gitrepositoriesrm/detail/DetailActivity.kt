@@ -12,7 +12,7 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_detail_view.*
 
 
-class DetailView : AppCompatActivity(), DetailViewInterface {
+class DetailActivity : AppCompatActivity(), DetailViewInterface {
 
     private val LOGIN = "login"
     private val REPOSITORY = "repository"
@@ -20,10 +20,13 @@ class DetailView : AppCompatActivity(), DetailViewInterface {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(com.example.rovermore.gitrepositoriesrm.R.layout.activity_detail_view)
+        //TODO MIRAR PARA QUE VUELVA A LA ACTIVITY ANTERIOS SIN RECARGAR
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+        supportActionBar?.setHomeButtonEnabled(true)
 
-        setTitle("Repository")
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+
+        title = "Repository"
 
         val login = intent?.extras!!.get(LOGIN) as String
         val repositoryName = intent?.extras!!.get(REPOSITORY) as String
