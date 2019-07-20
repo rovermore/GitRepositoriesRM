@@ -2,6 +2,7 @@ package com.example.rovermore.gitrepositoriesrm.detail
 
 import android.content.Intent
 import android.content.pm.ActivityInfo
+import android.graphics.Paint
 import android.net.Uri
 import android.os.Bundle
 import android.view.MenuItem
@@ -11,6 +12,8 @@ import com.example.rovermore.gitrepositoriesrm.datamodel.Owner
 import com.example.rovermore.gitrepositoriesrm.datamodel.RepositoryDetail
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_detail_view.*
+
+
 
 
 class DetailActivity : AppCompatActivity(), DetailViewInterface {
@@ -39,6 +42,7 @@ class DetailActivity : AppCompatActivity(), DetailViewInterface {
         Picasso.with(this).load(owner.avatarUrl).into(iv_profile_detail)
         tv_repository_name_detail.text = repositoryDetail.name
         tv_login_detail.text = owner.login
+        tv_url_user_detail.paintFlags = tv_url_user_detail.paintFlags or Paint.UNDERLINE_TEXT_FLAG
         tv_url_user_detail.text = owner.htmlUrl
         tv_description.text = repositoryDetail.description
         tv_language.text = repositoryDetail.language
